@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+
 
 const placeholderImages = [
   { src: "https://via.placeholder.com/800x500?text=Image+1" },
