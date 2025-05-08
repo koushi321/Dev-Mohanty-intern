@@ -1,46 +1,49 @@
-import React, { useState } from 'react';
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css'; // Lightbox styles
+import React, { useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+
+const placeholderImages = [
+  { src: "https://via.placeholder.com/800x500?text=Image+1" },
+  { src: "https://via.placeholder.com/800x500?text=Image+2" },
+  { src: "https://via.placeholder.com/800x500?text=Image+3" },
+];
 
 const galleryAlbums = [
-  { title: '2024 OTV News on Bahrain Odia Samaj Utkala Diwas Celebration', images: [] },
-  { title: '2019 Annual Function of DevLoka Public School', images: [] },
-  { title: '8th CII Global Summit on Skill Development', images: [] },
-  { title: 'Teacher\'s Day Celebration', images: [] },
-  { title: 'Children\'s Day Event', images: [] },
-  { title: 'Science Exhibition 2023', images: [] },
-  { title: 'Art and Craft Competition', images: [] },
-  { title: 'Annual Sports Meet', images: [] },
-  { title: 'Christmas Celebration', images: [] },
-  { title: 'Republic Day Parade', images: [] },
-  { title: 'Farewell Party 2023', images: [] },
-  { title: 'Welcoming Freshers', images: [] },
-  { title: 'Yoga Day Celebration', images: [] },
-  { title: 'Educational Field Trip', images: [] },
-  { title: 'Summer Camp Activities', images: [] },
-  { title: 'Music and Dance Fest', images: [] },
-  { title: 'Quiz Competition 2023', images: [] },
-  { title: 'Plantation Drive', images: [] },
-  { title: 'Blood Donation Camp', images: [] },
-  { title: 'Alumni Meet 2024', images: [] },
+  { title: '2024 OTV News on Bahrain Odia Samaj Utkala Diwas Celebration', images: placeholderImages },
+  { title: '2019 Annual Function of DevLoka Public School', images: placeholderImages },
+  { title: '8th CII Global Summit on Skill Development', images: placeholderImages },
+  { title: "Teacher's Day Celebration", images: placeholderImages },
+  { title: "Children's Day Event", images: placeholderImages },
+  { title: "Science Exhibition 2023", images: placeholderImages },
+  { title: "Art and Craft Competition", images: placeholderImages },
+  { title: "Annual Sports Meet", images: placeholderImages },
+  { title: "Christmas Celebration", images: placeholderImages },
+  { title: "Republic Day Parade", images: placeholderImages },
+  { title: "Farewell Party 2023", images: placeholderImages },
+  { title: "Welcoming Freshers", images: placeholderImages },
+  { title: "Yoga Day Celebration", images: placeholderImages },
+  { title: "Educational Field Trip", images: placeholderImages },
+  { title: "Summer Camp Activities", images: placeholderImages },
+  { title: "Music and Dance Fest", images: placeholderImages },
+  { title: "Quiz Competition 2023", images: placeholderImages },
+  { title: "Plantation Drive", images: placeholderImages },
+  { title: "Blood Donation Camp", images: placeholderImages },
+  { title: "Alumni Meet 2024", images: placeholderImages },
 ];
 
 const GallerySection = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [albumIndex, setAlbumIndex] = useState(0);
-  const [photoIndex, setPhotoIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [slides, setSlides] = useState([]);
 
-  const openAlbum = (index) => {
-    setAlbumIndex(index);
-    setPhotoIndex(0);
-    setIsOpen(true);
+  const openAlbum = (album) => {
+    if (album.images.length > 0) {
+      setSlides(album.images);
+      setOpen(true);
+    }
   };
 
   return (
-    <section
-      id="gallery"
-      className="py-16 px-6 bg-[#0f172a] min-h-screen"
-    >
+    <section id="gallery" className="py-16 px-6 bg-[#0f172a] min-h-screen">
       <h2 className="text-4xl sm:text-5xl font-bold text-center text-orange-400 mb-12 font-serif tracking-wide">
         Gallery
       </h2>
@@ -50,10 +53,10 @@ const GallerySection = () => {
           <div
             key={index}
             className="bg-[#1e293b] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer"
-            onClick={() => openAlbum(index)}
+            onClick={() => openAlbum(album)}
           >
             <div className="flex items-center justify-center bg-[#0f172a] w-full h-48">
-              <span className="text-gray-500">No Image Yet</span>
+              <span className="text-gray-500">Click to View</span>
             </div>
             <div className="p-4">
               <h3 className="text-white text-sm font-semibold text-center leading-snug">
@@ -64,20 +67,7 @@ const GallerySection = () => {
         ))}
       </div>
 
-      {isOpen && galleryAlbums[albumIndex].images.length > 0 && (
-        <Lightbox
-          mainSrc={galleryAlbums[albumIndex].images[photoIndex]}
-          nextSrc={galleryAlbums[albumIndex].images[(photoIndex + 1) % galleryAlbums[albumIndex].images.length]}
-          prevSrc={galleryAlbums[albumIndex].images[(photoIndex + galleryAlbums[albumIndex].images.length - 1) % galleryAlbums[albumIndex].images.length]}
-          onCloseRequest={() => setIsOpen(false)}
-          onMovePrevRequest={() =>
-            setPhotoIndex((photoIndex + galleryAlbums[albumIndex].images.length - 1) % galleryAlbums[albumIndex].images.length)
-          }
-          onMoveNextRequest={() =>
-            setPhotoIndex((photoIndex + 1) % galleryAlbums[albumIndex].images.length)
-          }
-        />
-      )}
+      <Lightbox open={open} close={() => setOpen(false)} slides={slides} />
     </section>
   );
 };
