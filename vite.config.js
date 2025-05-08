@@ -1,13 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   build: {
     rollupOptions: {
-      external: ['react-image-lightbox', 'yet-another-react-lightbox'], // Add the problematic module here
-    },
-  },
+      external: [
+        'yet-another-react-lightbox',
+        'yet-another-react-lightbox/plugins/captions',
+        'yet-another-react-lightbox/plugins/zoom'
+      ]
+    }
+  }
 });
